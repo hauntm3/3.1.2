@@ -28,8 +28,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public User findByEmail(String username) {
+        return userRepository.findByEmail(username);
     }
 
     @Override
@@ -43,19 +43,6 @@ public class UserServiceImpl implements UserService {
     public void saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
-    }
-
-    @Override
-    @Transactional
-    public void update(Long id ,User updatedUser) {
-        User userToBeUpdated = userRepository.findById(id).orElse(null);
-
-        userToBeUpdated.setUsername(updatedUser.getUsername());
-        if(!updatedUser.getPassword().equals(userToBeUpdated.getPassword())) {
-            userToBeUpdated.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
-        }
-
-        userRepository.save(userToBeUpdated);
     }
 
     @Override

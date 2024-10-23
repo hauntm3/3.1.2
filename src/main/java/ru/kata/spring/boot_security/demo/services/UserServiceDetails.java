@@ -30,20 +30,18 @@ public class UserServiceDetails implements UserDetailsService {
 
     @Transactional
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(s);
 
         if (user == null) {
-            throw new UsernameNotFoundException(String.format("User %s not found", username));
+            throw new UsernameNotFoundException(String.format("User %s not found", s));
         }
 
-//        return new org.springframework.security.core.userdetails.
-//                User(user.getUsername(), user.getPassword(), mapToAuthorities(user.getRoles()));
-        System.out.println("User found: " + user);
-        return user;
+        return new org.springframework.security.core.userdetails.
+                User(user.getUsername(), user.getPassword(), mapToAuthorities(user.getRoles()));
     }
 
-//    private Collection<? extends GrantedAuthority> mapToAuthorities(Collection<Role> roles) {
-//        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
-//    }
+    private Collection<? extends GrantedAuthority> mapToAuthorities(Collection<Role> roles) {
+        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+    }
 }
