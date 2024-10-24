@@ -124,6 +124,10 @@ public class User implements UserDetails {
                 .collect(Collectors.toSet());
     }
 
+    public String printRoles(){
+        return this.roles.stream().map(role -> role.getName().replace("ROLE_)", " ")).collect(Collectors.joining(" "));
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;

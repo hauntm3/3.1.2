@@ -36,6 +36,7 @@ public class UserServiceDetails implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(String.format("User %s not found", s));
         }
+//        return user;
 
         return new org.springframework.security.core.userdetails.
                 User(user.getUsername(), user.getPassword(), mapToAuthorities(user.getRoles()));
